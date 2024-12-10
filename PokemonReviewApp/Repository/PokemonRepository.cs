@@ -1,39 +1,41 @@
 ﻿using PokemonReviewApp.Data;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
+using System.Linq;
 
 namespace PokemonReviewApp.Repository
 {
     public class PokemonRepository : IPokemonRepository
     {
         private readonly DataContext _context;
+
         public PokemonRepository(DataContext context)
         {
             _context = context;
-
         }
 
         public Pokemon GetPokemon(int id)
         {
-            return _context.Pokemon.Where(p = p => p.Id == pokeid).FirstOrDefault();
-        } 
+            return _context.Pokemon.Where(p => p.Id == id).FirstOrDefault();
+        }
+
         public Pokemon GetPokemon(string name)
         {
-            return _context.Pokemon.Where(p = p => p.Name == name).FirstOrDefault();
+            return _context.Pokemon.Where(p => p.Name == name).FirstOrDefault();
         }
 
         public decimal GetPokemonRating(int pokeid)
         {
-           var review = _context.Reviews.Where(p=> p.Pokemon.Id == pokeid).FirstOrDefault();
-            if (review.Count()<=0)
+            var reviews = _context.Reviews.Where(p => p.Pokemon.Id == pokeid).ToList();
+            if (reviews.Count == 0)
                 return 0;
-            return ((decimal)review.Sum(review => r.Rating) / review.Count());
+
+            return (decimal)reviews.Sum(review => review.Rating) / reviews.Count;
         }
 
         public ICollection<Pokemon> GetPokemons()
         {
-            return _context.Pokemon.OrderBy(p => p.Id).ToList();        
-        
+            return _context.Pokemon.OrderBy(p => p.Id).ToList();
         }
 
         public bool PokemonExists(int pokeid)
