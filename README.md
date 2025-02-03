@@ -24,4 +24,4 @@ Bu projeyi yerel olarak çalıştırmak için aşağıdaki adımları izleyebili
 
 1. Reposunu klonlayın:
    ```bash
-   git clone https://github.com/kullaniciadiniz/pokemon-web-api.git
+   git clone https://github.com/ahmetulkr/pokemon-web-api.git
